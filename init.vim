@@ -2,6 +2,9 @@ set nocompatible
 set cpoptions+=J " Separate sentences with two spaces
 syntax on
 
+" Do not display name of the file at the bottom if only 1 window is open
+set laststatus=1
+
 " Display cursor position at the bottom of the window
 set ruler
 
@@ -89,10 +92,10 @@ autocmd FileType python setlocal expandtab
 autocmd FileType python setlocal shiftwidth=4
 autocmd FileType python setlocal softtabstop=4
 autocmd FileType python setlocal tabstop=4
-autocmd FileType python nnoremap <buffer> <F9> :update<bar>term python3 -m doctest %<CR>
+autocmd FileType python nnoremap <buffer> <F9> :update<bar>term python3 -m doctest % && echo All tests passed.<CR>A
 " Execute script in the current file:
 " (https://stackoverflow.com/a/39996978/13168106)
-autocmd FileType python nnoremap <buffer> <F10> :update<bar>term python3 %<CR>
+autocmd FileType python nnoremap <buffer> <F10> :update<bar>term python3 %<CR>A
 
 autocmd FileType xml nnoremap <buffer> <leader>f :call XMLReformatBuffer()<CR>
 let g:xml_syntax_folding=1

@@ -82,6 +82,9 @@ syn match UrlNoSpell '\w\+:\/\/[^[:space:]]\+' contains=@NoSpell
 " h matchit-install
 packadd! matchit
 
+" Save and execute currently edited bash script:
+autocmd FileType sh nnoremap <buffer> <F10> :up<bar>term bash %<CR>A
+
 autocmd FileType python setlocal expandtab
 autocmd FileType python setlocal shiftwidth=4
 autocmd FileType python setlocal softtabstop=4

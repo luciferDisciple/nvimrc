@@ -92,7 +92,7 @@ autocmd FileType python setlocal expandtab
 autocmd FileType python setlocal shiftwidth=4
 autocmd FileType python setlocal softtabstop=4
 autocmd FileType python setlocal tabstop=4
-autocmd FileType python nnoremap <buffer> <F9> :update<bar>term python3 -m doctest % && echo All tests passed.<CR>A
+autocmd FileType python nnoremap <buffer> <F9> :sp<bar>update<bar>term python3 -m doctest % && echo All tests passed.<CR>A
 " Execute script in the current file:
 " (https://stackoverflow.com/a/39996978/13168106)
 autocmd FileType python nnoremap <buffer> <F10> :update<bar>term python3 %<CR>A

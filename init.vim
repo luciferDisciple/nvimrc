@@ -11,6 +11,20 @@ set ruler
 " Display NORMAL commands as they are being typed, at the bottom of the window
 set showcmd
 
+" Don't change the shape of the cursor when entering INSERT mode
+" :help t_SI
+" :help terminal-output-codes (in regular vim)
+if has('nvim')
+	set guicursor-=i-ci-ve:ver25
+endif
+
+" Blink cursor in all modes ('a:')
+if has('nvim')
+	set guicursor+=a:blinkwait300-blinkon200-blinkoff150
+endif
+
+" Show indentation hints, trailing whitespace, and a unicode character
+" 'nonbreaking space'
 set listchars=tab:\|\ ,trail:·,nbsp:·
 set list
 
@@ -82,7 +96,7 @@ syn match UrlNoSpell '\w\+:\/\/[^[:space:]]\+' contains=@NoSpell
 
 " This plugin makes the "%" command jump to matching HTML tags,
 " if/else/endif in Vim scripts, etc.
-" h matchit-install
+" :help matchit-install
 packadd! matchit
 
 " Save and execute currently edited bash script:
@@ -121,6 +135,12 @@ autocmd FileType vimwiki setlocal tw=79
 autocmd FileType vimwiki setlocal expandtab
 autocmd FileType vimwiki setlocal shiftwidth=4
 autocmd FileType vimwiki setlocal softtabstop=4
+
+autocmd FileType javascript setlocal expandtab
+autocmd FileType javascript setlocal shiftwidth=4
+autocmd FileType javascript setlocal nowrap
+autocmd FileType javascript setlocal tabstop=4
+autocmd FileType javascript setlocal softtabstop=4
 
 autocmd FileType json setlocal expandtab
 autocmd FileType json setlocal shiftwidth=4

@@ -42,6 +42,10 @@ if &encoding == "cp1250"
 	set iskeyword+=209,211,140,143,175
 endif
 
+" swap the current word with the next, without changing the cursor position
+" https://vim.fandom.com/wiki/Swapping_characters,_words_and_lines
+:nnoremap <silent> gw "_yiw:s/\(\%#[0-9A-Za-zĄąĆćĘęŁłŃńÓóŻżŹź]\+\)\([^0-9A-Za-zĄąĆćĘęŁłŃńÓóŻżŹź]\+\)\([0-9A-Za-zĄąĆćĘęŁłŃńÓóŻżŹź]\+\)/\3\2\1/<CR><c-o><c-l>:nohlsearch<CR>
+
 " :term opens WSL instead of CMD when on MS Windows
 " https://vi.stackexchange.com/a/16436
 if has("win32")

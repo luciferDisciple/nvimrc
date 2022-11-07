@@ -42,9 +42,37 @@ if &encoding == "cp1250"
 	set iskeyword+=209,211,140,143,175
 endif
 
+
+let s:polish_word_char_class = '[0-9A-Za-zĄąĆćĘęŁłŃńÓóŻżŹź]'
+let s:not_polish_word_char_class = '[^0-9A-Za-zĄąĆćĘęŁłŃńÓóŻżŹź]'
+
+function SwapNextWord()
+	let l:save_cursor = getcurpos()
+	let l:subst_command  = 's/\(\%#' . s:polish_word_char_class . '\+\)'
+	let l:subst_command .= '\(' . s:not_polish_word_char_class . '\+\)'
+	let l:subst_command .= '\(' . s:polish_word_char_class . '\+\)'
+	let l:subst_command .= '/\3\2\1/'
+	call s:MoveToStartCurrentWord()
+	execute l:subst_command
+	call setpos('.', l:save_cursor)
+endfunction
+
+function SwapNextCapitalWord()
+	let l:save_cursor = getcurpos()
+	call s:MoveToStartCurrentWord()
+	s/\(\%#\S\+\)\(\s\+\)\(\S\+\)/\3\2\1/
+	call setpos('.', l:save_cursor)
+endfunction
+
+function s:MoveToStartCurrentWord()
+	normal "_yiw
+endfunction
+
 " swap the current word with the next, without changing the cursor position
 " https://vim.fandom.com/wiki/Swapping_characters,_words_and_lines
-:nnoremap <silent> gw "_yiw:s/\(\%#[0-9A-Za-zĄąĆćĘęŁłŃńÓóŻżŹź]\+\)\([^0-9A-Za-zĄąĆćĘęŁłŃńÓóŻżŹź]\+\)\([0-9A-Za-zĄąĆćĘęŁłŃńÓóŻżŹź]\+\)/\3\2\1/<CR><c-o><c-l>:nohlsearch<CR>
+nmap <silent> gw :call SwapNextWord()<CR>
+nmap <silent> gW :call SwapNextCapitalWord()<CR>
+
 
 " :term opens WSL instead of CMD when on MS Windows
 " https://vi.stackexchange.com/a/16436

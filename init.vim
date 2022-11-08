@@ -43,8 +43,8 @@ if &encoding == "cp1250"
 endif
 
 
-let s:polish_word_char_class = '[0-9A-Za-zĄąĆćĘęŁłŃńÓóŻżŹź]'
-let s:not_polish_word_char_class = '[^0-9A-Za-zĄąĆćĘęŁłŃńÓóŻżŹź]'
+let s:polish_word_char_class = '[_0-9A-Za-zĄąĆćĘęŁłŃńÓóŻżŹź]'
+let s:not_polish_word_char_class = '[^_0-9A-Za-zĄąĆćĘęŁłŃńÓóŻżŹź]'
 
 function SwapNextWord()
 	let l:save_cursor = getcurpos()

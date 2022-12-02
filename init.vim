@@ -116,7 +116,7 @@ nmap <leader>u `[v`]<BS>gU
 " vimwiki
 let wiki = {}
 let wiki.name = 'Personal'
-let wiki.path = '~/vimwiki/'
+let wiki.path = '~/Documents/vimwiki/'
 let wiki.list_margin = 0
 
 let g:vimwiki_list = [wiki]

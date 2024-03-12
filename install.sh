@@ -8,18 +8,27 @@ vimrc_source="$this_script_dir/init.vim"
 
 main() {
 	if [ -f "$vimrc_destination" ]; then
-		echo File "'$vimrc_destination'" already exists. It will be backed up.
-		read -p "Do you want to proceed [Y/n]? "
-		if ! [[ "$REPLY" =~ ^(y|yes|)$ ]]; then
-			echo Aborting...
+		log_info "File '$vimrc_destination' already exists. It will be backed up."
+		log_info "Do you want to proceed [Y/n]? "
+		read proceed_reply
+		if ! [[ "$proceed_reply" =~ ^(y|yes|)$ ]]; then
+			log_info "Aborting..."
 			exit 1
 		fi
 		backup_vimrc
 		rm "$vimrc_destination"
 	fi
-	echo Creating symoblic link "'$vimrc_destination'" to "'$vimrc_source'"
-	ln -s "$vimrc_source" "$vimrc_destination"
-	echo Finished!
+	ln -s "$vimrc_source" "$vimrc_destination" \
+		&& log_info "Created symoblic link '$vimrc_destination' to '$vimrc_source'" \
+		|| { log_error "Failed to creating symoblic link '$vimrc_destination' to '$vimrc_source'" ; return 1 ; }
+}
+
+log_info() {
+	echo "[install.sh] $*"
+}
+
+log_error() {
+	echo "[install.sh] ERROR: $*"
 }
 
 backup_vimrc() {
@@ -29,8 +38,8 @@ backup_vimrc() {
 		let backups_count++
 		backup="$vimrc_destination.bak$backups_count"
 	done
-	echo Backing up init.vim at "'$backup'"
+	log_info "Backing up init.vim at '$backup'"
 	cp "$vimrc_destination" "$backup"
 }
 
-main
+main && log_info "Success!" || log_info "Failed!"

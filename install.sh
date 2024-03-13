@@ -3,8 +3,8 @@ shopt -s nocasematch
 
 this_script_dir="$(dirname "$(realpath "$0")")"
 vimrc_destination_dir="$HOME/.config/nvim"
-vimrc_destination="$vimrc_destination_dir/init.vim"
-vimrc_source="$this_script_dir/init.vim"
+vimrc_destination="$vimrc_destination_dir/init.lua"
+vimrc_source="$this_script_dir/init.lua"
 
 main() {
 	if [ -f "$vimrc_destination" ]; then

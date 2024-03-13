@@ -1,37 +1,30 @@
 #!/bin/bash
+shopt -s nocasematch
+DIR="$(dirname "$(realpath "$0")")"  # directory of this script
+vimrc_destination="$HOME/.config/nvim/init.vim"
+vimrc_source="$DIR/init.vim"
 
-set -e
-
-main() {
-	backup
-	echo Installing...
-	[[ -f ~/.config/nvim/ ]] || mkdir ~/.config/nvim/
-	cp init.lua ~/.config/nvim/
-	echo Success.
+backup_vimrc() {
+	backups_count=1
+	backup="$vimrc_source.bak$backups_count"
+	while [[ -f "$backup" ]]; do
+		let backups_count++
+		backup="$vimrc_destination.bak$backups_count"
+	done
+	echo Backing up init.vim at "'$backup'"
+	cp "$vimrc_destination" "$backup"
 }
 
-dir_is_not_empty() {
-	find "$1" -mindepth 1 -maxdepth 1 | read
-	return
-}
-
-backup() {
-	if [[ -e ~/.config/nvim/ ]] && dir_is_not_empty ~/.config/nvim ; then
-		echo "Directory '$HOME/.config/nvim' already exists."
-		while :; do
-			read -p  "Do you want to make backup and continue? [y/N] "
-			if [[ "$REPLY" =~ [yY] ]]; then
-				tempdir="$(mktemp -d ~/.config/nvim.bak.XXX)"
-				rmdir "$tempdir"
-				mv ~/.config/nvim/ "$tempdir"
-				echo "Backed up '$HOME/.config/nvim/' to '$tempdir/'."
-				break
-			elif [[ "$REPLY" =~ [nN] || -z "$REPLY" ]]; then
-				echo Aborting.
-				exit 1
-			fi
-		done
+if [ -f "$vimrc_destination" ]; then
+	echo File "'$vimrc_destination'" already exists. It will be backed up.
+	read -p "Do you want to proceed [Y/n]? "
+	if ! [[ "$REPLY" =~ ^(y|yes|)$ ]]; then
+		echo Aborting...
+		exit 1
 	fi
-}
-
-main
+	backup_vimrc
+	rm "$vimrc_destination"
+fi
+echo Creating symoblic link "'$vimrc_destination'" to "'$vimrc_source'"
+ln -s "$vimrc_source" "$vimrc_destination"
+echo Finished!

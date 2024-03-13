@@ -12,3 +12,23 @@
 [luciferdisciple@nexus nvimrc (master)]$
 ```
 
+### Ubuntu
+
+If neovim complains that "lazy.vim requires neovim version >= 0.8.0", you must
+execute following commands (without leading "$"):
+
+```
+$ sudo add-apt-repository ppa:neovim-ppa/unstable
+```
+
+```
+$ sudo apt update
+```
+
+```
+$ sudo apt install neovim
+```
+
+This will install a newer version of neovim, then the one available in the
+official Ubuntu repository.
+

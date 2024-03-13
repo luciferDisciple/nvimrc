@@ -18,6 +18,7 @@ main() {
 		backup_vimrc
 		rm "$vimrc_destination"
 	fi
+	ensure_nvimrc_dir_exists
 	ln -s "$vimrc_source" "$vimrc_destination" \
 		&& log_info "Created symoblic link '$vimrc_destination' to '$vimrc_source'" \
 		|| { log_error "Failed to creating symoblic link '$vimrc_destination' to '$vimrc_source'" ; return 1 ; }
@@ -40,6 +41,10 @@ backup_vimrc() {
 	done
 	log_info "Backing up init.vim at '$backup'"
 	cp "$vimrc_destination" "$backup"
+}
+
+ensure_nvimrc_dir_exists() {
+	mkdir -p "$vimrc_destination_dir"
 }
 
 main && log_info "Success!" || log_info "Failed!"

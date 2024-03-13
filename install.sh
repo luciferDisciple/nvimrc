@@ -8,11 +8,11 @@ vimrc_source="$this_script_dir/init.lua"
 
 main() {
 	if [ -f "$vimrc_destination" ]; then
-		log_info "File '$vimrc_destination' already exists. It will be backed up."
+		log_line_info "File '$vimrc_destination' already exists. It will be backed up."
 		log_info "Do you want to proceed [Y/n]? "
 		read proceed_reply
 		if ! [[ "$proceed_reply" =~ ^(y|yes|)$ ]]; then
-			log_info "Aborting..."
+			log_line_info "Aborting..."
 			exit 1
 		fi
 		backup_vimrc
@@ -20,12 +20,16 @@ main() {
 	fi
 	ensure_nvimrc_dir_exists
 	ln -s "$vimrc_source" "$vimrc_destination" \
-		&& log_info "Created symoblic link '$vimrc_destination' to '$vimrc_source'" \
+		&& log_line_info "Created symoblic link '$vimrc_destination' to '$vimrc_source'" \
 		|| { log_error "Failed to creating symoblic link '$vimrc_destination' to '$vimrc_source'" ; return 1 ; }
 }
 
-log_info() {
+log_line_info() {
 	echo "[install.sh] $*"
+}
+
+log_info() {
+	echo -n "[install.sh] $*"
 }
 
 log_error() {
@@ -39,7 +43,7 @@ backup_vimrc() {
 		let backups_count++
 		backup="$vimrc_destination.bak$backups_count"
 	done
-	log_info "Backing up init.vim at '$backup'"
+	log_line_info "Backing up init.vim at '$backup'"
 	cp "$vimrc_destination" "$backup"
 }
 
@@ -47,4 +51,4 @@ ensure_nvimrc_dir_exists() {
 	mkdir -p "$vimrc_destination_dir"
 }
 
-main && log_info "Success!" || log_info "Failed!"
+main && log_line_info "Success!" || log_line_info "Failed!"

@@ -14,7 +14,7 @@
 
 ## Troubleshooting
 
-### lazy.vim requires neovim version...
+### 1. "lazy.vim requires neovim version..."
 
 If you are on Ubuntu and neovim complains that "lazy.vim requires neovim
 version >= 0.8.0", you must execute following commands (without leading "$"):
@@ -35,7 +35,7 @@ This will install a newer version of neovim, then the one available in the
 official Ubuntu repository.
 
 
-### No C compiler found!
+### 2. "No C compiler found!"
 
 If you are getting the following error message:
 
